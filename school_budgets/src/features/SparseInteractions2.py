@@ -4,6 +4,7 @@ import numpy as np
 from scipy import sparse
 from sklearn.base import BaseEstimator, TransformerMixin
 
+
 class SparseInteractions(BaseEstimator, TransformerMixin):
     def __init__(self, degree=2, feature_name_separator='_'):
         self.degree = degree
@@ -13,11 +14,11 @@ class SparseInteractions(BaseEstimator, TransformerMixin):
         return self
     
     def transform(self, X):
-        if not sparse.isspmatrix_csc(X):
+        if not parse.isspmatrix_csc(X):
             X = sparse.csc_matrix(X)
             
         if hasattr(X, 'columns'):
-            self.orig_col_names = X_columns
+            self.orig_col_names = X.columns
         else:
             self.orig_col_names = np.array([str(i) for i in range(X.shape[1])])
             
@@ -43,6 +44,5 @@ class SparseInteractions(BaseEstimator, TransformerMixin):
                     out = out.multiply(X[:, j])
                     
                 out_mat.append(out)
-            
+                
         return sparse.hstack([X] + out_mat)
-                                        
